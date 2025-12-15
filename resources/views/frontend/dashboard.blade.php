@@ -71,7 +71,8 @@
     {{-- =========================================
          MAIN CONTENT
          ========================================= --}}
-    <main class="main-area fix">
+    <main class="main-area-fixx">
+
         
         <div class="mobile-menu">
             <nav class="menu-box">
@@ -141,7 +142,9 @@
                     <div class="tentang-kami-content">
                         <h2>Tentang Kami</h2>
                         <p>
-                            Sejak 2011, Kripik Alda hadir dengan camilan sehat yang nggak cuma enak, tapi juga bergizi! Kami menghadirkan Kripik Jamur dan Kripik Pare yang terbuat dari bahan alami pilihan.
+                            Sejak 2011, Kripik Alda hadir dengan camilan sehat yang nggak cuma enak, tapi juga bergizi! Kami menghadirkan Kripik Jamur dan Kripik Pare yang terbuat dari bahan alami pilihan, 
+                            diproses dengan cara yang higienis untuk menjaga kualitas dan rasa. Tanpa bahan pengawet, kripik kami punya tekstur renyah yang cocok banget buat teman nongkrong atau ngemil sambil santai. 
+                            Berlokasi di Rt/Rw 01/05, Ds. Jagul Dsn. Sraten, Kec. Ngancar, Kabupaten Kediri, Jawa Timur, kami siap memberikan camilan yang nggak hanya lezat, tapi juga mendukung gaya hidup sehat. Kripik Alda – camilan yang bikin ketagihan!
                         </p>
                     </div>
                     <div class="tentang-kami-image">
@@ -156,6 +159,26 @@
             <div class="section-title"><h2>Produk</h2></div>
             <div class="swiper">
                 <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="{{ asset('assets/img/alda/produk-ayam-panggang.png') }}" alt="ayam" />
+                        <div class="produk-label">Kripik Jamur Rasa Ayam Panggang</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('assets/img/alda/produk-balado.png') }}" alt="balado" />
+                        <div class="produk-label">Kripik Jamur Rasa Balado</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('assets/img/alda/produk-bbq.png') }}" alt="bbq" />
+                        <div class="produk-label">Kripik Jamur Rasa BBQ</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('assets/img/alda/produk-original.png') }}" alt="original" />
+                        <div class="produk-label">Kripik Jamur Rasa Original</div>
+                    </div>
+                     <div class="swiper-slide">
+                        <img src="{{ asset('assets/img/alda/produk-pedas.png') }}" alt="pedas" />
+                        <div class="produk-label">Kripik Jamur Rasa Pedas</div>
+                    </div>
                     <div class="swiper-slide">
                         <img src="{{ asset('assets/img/alda/produk-ayam-panggang.png') }}" alt="ayam" />
                         <div class="produk-label">Kripik Jamur Rasa Ayam Panggang</div>

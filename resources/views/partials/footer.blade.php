@@ -29,8 +29,8 @@
                         <div class="footer-widget">
                             <h4 class="fw-title">Jam Buka</h4>
                             <ul class="list-wrap">
-                                <li><strong>Senin - Sabtu:</strong> 00:00 - 21:00</li>
-                                <li><strong>Minggu:</strong> 10:00 - 20:00</li>
+                                <li><strong>Senin - Jum'at:</strong> <br> 14:00 - 20:00</li>
+                                <li><strong>Sabtu - Minggu:</strong> <br> 10:00 - 20:00</li>
                             </ul>
                         </div>
                     </div>

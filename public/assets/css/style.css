@@ -472,6 +472,15 @@ input {
     padding: 1.5rem;
     padding-top: 3rem;
 }
+
+.main-area-fixx {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0;
+}
+
+
 /* Class khusus penghilang padding */
 .main-area.no-padding {
     padding: 0 !important;
