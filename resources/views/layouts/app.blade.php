@@ -9,7 +9,6 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/alda/logo.png') }}">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
@@ -30,29 +29,11 @@
 
 <body>
 
-@include('partials.preloader')
-@include('partials.scrolltop')
+    @include('partials.preloader')
+    @include('partials.scrolltop')
 
-@if(auth()->check() && auth()->user()->role === 'Admin')
-    <div class="d-flex">
-        @include('partials.sidebar')
-
-        <main class="main-area">
-            <button class="btn btn-light d-lg-none m-3" id="toggleSidebar">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-            @yield('content')
-        </main>
-    </div>
-@elseif(auth()->check() && auth()->user()->role === 'Customer')
-
-    @if(!request()->routeIs('keranjang'))
-            @include('partials.header')
-            @yield('content')
-            @include('partials.footer')
-    @else
+    {{-- LOGIC ADMIN --}}
+    @if(auth()->check() && auth()->user()->role === 'Admin')
         <div class="d-flex">
             @include('partials.sidebar')
 
@@ -65,63 +46,102 @@
                 @yield('content')
             </main>
         </div>
+
+    {{-- LOGIC CUSTOMER --}}
+    @elseif(auth()->check() && auth()->user()->role === 'Customer')
+
+        @if(!request()->routeIs('keranjang'))
+            
+            {{-- 
+               MODIFIKASI PENTING:
+               Cek apakah ini Halaman Home ('/') atau ('welcome-page').
+               Jika YA: Jangan load header bawaan (karena kita pakai header custom transparan).
+               Jika BUKAN: Load header biasa.
+            --}}
+            @if(!request()->is('/') && !request()->is('welcome-page'))
+                @include('partials.header')
+            @endif
+
+            @yield('content')
+
+            {{-- Footer tetap ditampilkan di semua halaman --}}
+            @include('partials.footer')
+
+        @else
+            {{-- Tampilan Halaman Keranjang (Pakai Sidebar) --}}
+            <div class="d-flex">
+                @include('partials.sidebar')
+                <main class="main-area">
+                    <button class="btn btn-light d-lg-none m-3" id="toggleSidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+                    @yield('content')
+                </main>
+            </div>
+        @endif
+
+    {{-- LOGIC GUEST (BELUM LOGIN) --}}
+    @else
+        {{-- 
+           MODIFIKASI PENTING:
+           Jika di halaman Home, hapus class "main-area" agar tidak ada padding bawaan 
+           yang merusak tampilan Hero Full Screen.
+        --}}
+        <main class="{{ (request()->is('/') || request()->is('welcome-page')) ? '' : 'main-area fix' }} {{ request()->routeIs('login','register') ? 'no-padding' : '' }}">
+            @yield('content')
+        </main>
     @endif
 
-@else
-    <main class="main-area fix {{ request()->routeIs('login',) ? 'no-padding' : '' }}">
-        @yield('content')
-    </main>
-@endif
 
+    <script src="{{ asset('assets/js/vendor/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('assets/js/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.odometer.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.appear.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.paroller.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.easypiechart.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.inview.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.easing.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/js/svg-inject.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jarallax.min.js') }}"></script>
+    <script src="{{ asset('assets/js/slick.min.js') }}"></script>
+    <script src="{{ asset('assets/js/validator.js') }}"></script>
+    <script src="{{ asset('assets/js/ajax-form.js') }}"></script>
+    <script src="{{ asset('assets/js/wow.min.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <script>
+        // Cek null safety sebelum inject
+        const injectImages = document.querySelectorAll("img.injectable");
+        if(injectImages.length > 0){
+             SVGInject(injectImages);
+        }
+    </script>
 
-<!-- JS -->
-<script src="{{ asset('assets/js/vendor/jquery-3.6.0.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/js/isotope.pkgd.min.js') }}"></script>
-<script src="{{ asset('assets/js/imagesloaded.pkgd.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.odometer.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.appear.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.paroller.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.easypiechart.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.inview.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.easing.js') }}"></script>
-<script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
-<script src="{{ asset('assets/js/svg-inject.min.js') }}"></script>
-<script src="{{ asset('assets/js/jarallax.min.js') }}"></script>
-<script src="{{ asset('assets/js/slick.min.js') }}"></script>
-<script src="{{ asset('assets/js/validator.js') }}"></script>
-<script src="{{ asset('assets/js/ajax-form.js') }}"></script>
-<script src="{{ asset('assets/js/wow.min.js') }}"></script>
-<script src="{{ asset('assets/js/main.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        const sidebar = document.getElementById('sidebarMenu');
+        const backdrop = document.getElementById('sidebarBackdrop');
+        const toggleBtn = document.getElementById('toggleSidebar');
 
+        if(toggleBtn && sidebar && backdrop) {
+            toggleBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('show');
+                backdrop.classList.toggle('show');
+            });
 
-<script>
-    SVGInject(document.querySelectorAll("img.injectable"));
+            backdrop.addEventListener('click', () => {
+                sidebar.classList.remove('show');
+                backdrop.classList.remove('show');
+            });
+        }
+    </script>
 
-</script>
-
-<!-- Sidebar -->
-<script>
-    const sidebar = document.getElementById('sidebarMenu');
-    const backdrop = document.getElementById('sidebarBackdrop');
-    const toggleBtn = document.getElementById('toggleSidebar');
-
-    toggleBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('show');
-        backdrop.classList.toggle('show');
-    });
-
-    backdrop.addEventListener('click', () => {
-        sidebar.classList.remove('show');
-        backdrop.classList.remove('show');
-    });
-</script>
-
-
-@stack('scripts')
+    @stack('scripts')
 </body>
 </html>

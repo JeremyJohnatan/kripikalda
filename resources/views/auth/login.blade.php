@@ -76,11 +76,14 @@
                     </div>
 
                     <button type="submit" class="login-btn">Masuk</button>
-                </form>
 
-            </div>
+                    <div class="account__switch">
+                        <p>Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a></p>
+                    </div>
+
+                </form> </div>
         </div>
     </div>
 </section>
-
 @endsection
+                

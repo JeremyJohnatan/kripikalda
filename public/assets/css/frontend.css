@@ -3189,149 +3189,253 @@ body.search-visible {
 
 
 /*=============================================
-	=          New Css              =
+    =           MERGED HEADER STYLES          =
 =============================================*/
-/* header */
+
+/* --- 1. CONFIGURATION HEADER UTAMA --- */
 .menu-area-two {
     border-bottom: 1px solid rgba(255, 255, 255, .26);
     padding: 0;
+    background: transparent; /* Pastikan transparan agar background hero terlihat */
 }
+
+/* Logo Area */
 .menu-area-two .logo {
-    padding: 20px 100px;
+    padding: 20px 40px; /* Saya kecilkan sedikit paddingnya agar tidak terlalu lebar */
     border-right: 1px solid rgba(255, 255, 255, .26);
     display: flex;
     align-items: center;
 }
+
 .menu-area-two .logo img {
     max-width: unset;
-    max-height: 59px;
+    max-height: 50px; /* Disesuaikan agar proporsional */
 }
+
 .menu-area-two .menu-nav {
-    align-items: normal;
+    align-items: center; /* Center vertical */
 }
+
+/* --- 2. NAVBAR MENU LINKS --- */
 .menu-area-two .navbar-wrap ul li a {
-    padding: 42px 27px;
+    padding: 35px 25px; /* Padding sedikit dirapikan */
+    display: block;
+    color: #ffffff; /* Default putih */
+    font-weight: 600;
+    position: relative;
+    transition: all 0.3s ease;
 }
+
+/* Hover & Active State untuk Link */
 .menu-area-two .navbar-wrap ul li .sub-menu li.active > a,
 .menu-area-two .navbar-wrap ul li .sub-menu li:hover > a,
 .menu-area-two .navbar-wrap > ul > li.active > a,
 .menu-area-two .navbar-wrap > ul > li:hover > a {
     color: var(--tg-primary-color);
 }
+
+/* Garis bawah animasi saat hover */
 .menu-area-two .navbar-wrap > ul > li > a::after {
     content: "";
     position: absolute;
     left: 10px;
-    bottom: 0;
+    bottom: 10px; /* Dinaikkan sedikit */
     right: 10px;
     height: 3px;
     background: var(--tg-primary-color);
     opacity: 0;
     transition: .3s linear;
 }
+
 .menu-area-two .navbar-wrap > ul > li.active > a::after,
 .menu-area-two .navbar-wrap > ul > li:hover > a::after {
     opacity: 1;
 }
-.header-action-two .list-wrap {
-    display: flex;
-    align-items: normal;
+
+/* --- 3. RIGHT SIDE ACTION (ORDER BTN & PROFILE) --- */
+/* Ini menggantikan .header-action-two yang lama agar cocok dengan Profile */
+
+.header-action {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end;
+    gap: 25px; /* Jarak antar elemen */
+    padding-right: 30px;
     height: 100%;
-    margin-left: 10px;
 }
-.header-action-two .list-wrap li {
-    margin-left: 0;
+
+/* Style Tombol Order Now (Reset Margin) */
+.header-btn {
+    margin: 0 !important;
+    padding: 0 !important;
 }
-.header-action-two .list-wrap li a {
+
+/* --- 4. CUSTOM PROFILE DROPDOWN STYLE --- */
+.profile-dropdown {
+    position: relative;
     display: flex;
     align-items: center;
-    width: 120px;
-    height: 100%;
-    padding: 20px 20px;
-    font-size: 30px;
-    justify-content: center;
-    border-left: 1px solid rgba(255, 255, 255, .26);
-    color: var(--tg-white);
-    position: relative;
+    gap: 12px;
+    cursor: pointer;
+    padding: 5px 12px;
+    border-radius: 30px;
+    transition: background 0.3s;
+    border: 1px solid transparent;
 }
-.header-action-two .list-wrap li a::before {
-    content: "";
+
+/* Efek Hover di kotak Profile */
+.profile-dropdown:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Foto Avatar */
+.profile-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Nama User */
+.profile-name {
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-name i {
+    font-size: 11px;
+    transition: transform 0.3s;
+    opacity: 0.8;
+}
+
+.profile-dropdown:hover .profile-name i {
+    transform: rotate(180deg);
+}
+
+/* Dropdown Menu (Logout Box) */
+.profile-menu {
+    display: none;
     position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 3px;
-    background: var(--tg-primary-color);
-    width: 100%;
-    opacity: 0;
-    transition: .3s linear;
+    top: 130%; /* Jarak dropdown dari header */
+    right: 0;
+    min-width: 160px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    z-index: 9999;
 }
-.header-action-two .list-wrap li a:hover {
-    color: var(--tg-primary-color);
-}
-.header-action-two .list-wrap li a:hover::before {
-    opacity: 1;
-}
-.cart-icon {
-    position: relative;
-    line-height: 0;
-}
-.header-cart .cart-count-two {
+
+/* Panah kecil di atas box dropdown */
+.profile-menu::after {
+    content: '';
     position: absolute;
     top: -6px;
-    right: -10px;
-    width: 20px;
-    height: 20px;
-    background: var(--tg-primary-color);
-    color: var(--tg-white);
-    border-radius: 50%;
-    font-size: 14px;
+    right: 20px;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    transform: rotate(45deg);
+}
+
+/* Tampilkan menu saat hover */
+.profile-dropdown:hover .profile-menu {
+    display: block;
+    animation: fadeInMenu 0.3s ease;
+}
+
+/* Tombol Logout */
+.logout-btn {
+    width: 100%;
+    background: none;
+    border: none;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
 }
-.menu-area-two.sticky-menu .logo {
-    display: none;
+
+.logout-btn:hover {
+    background-color: #fce4e4;
+    color: #d32f2f;
 }
-.menu-area-two.sticky-menu .logo.d-none {
-    display: block !important;
+
+.logout-btn i {
+    color: #999;
 }
-.menu-area-two.sticky-menu .logo {
-    border-color: var(--tg-gray);
+
+.logout-btn:hover i {
+    color: #d32f2f;
 }
+
+/* --- 5. STICKY MENU BEHAVIOR --- */
 .menu-area-two.sticky-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #1a4d2e; /* Warna background saat scroll (misal Hijau Tua) */
     border-bottom: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding: 0;
+    animation: stickySlideDown 0.5s ease-out;
 }
-.menu-area-two.sticky-menu .header-action-two .list-wrap li a {
-    border-left: 1px solid var(--tg-white);
+
+/* Penyesuaian Sticky: Border logo hilang */
+.menu-area-two.sticky-menu .logo {
+    border-right: none;
 }
-.menu-area-two.sticky-menu .header-action-two .list-wrap li a:hover {
-    color: var(--tg-primary-color);
+
+/* Penyesuaian Sticky: Padding Link Mengecil */
+.menu-area-two.sticky-menu .navbar-wrap ul li a {
+    padding: 25px 20px;
 }
+
+/* --- 6. ANIMATIONS --- */
+@keyframes fadeInMenu {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes stickySlideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+/* --- 7. RESPONSIVE / MOBILE TOGGLER --- */
 .menu-area-two .mobile-nav-toggler {
-    display: none;
-    align-items: center;
-    width: 90px;
-    padding: 20px 15px;
-    font-size: 30px;
-    justify-content: center;
-    border-left: 1px solid rgba(255, 255, 255, .26);
-    color: var(--tg-white);
-    position: relative;
+    display: none; /* Default hidden di desktop */
+    font-size: 26px;
+    color: #fff;
     background: transparent;
-    border-radius: 0;
-    height: 100%;
-    margin-top: 0;
-}
-.menu-area-two.sticky-menu .mobile-nav-toggler {
-    border-left: 1px solid var(--tg-gray);
-    color: var(--tg-heading-font-color);
-}
-.btn-sm {
-    padding: 17px 35px;
-    line-height: 1;
+    border: none;
+    padding: 0 20px;
 }
 
+@media (max-width: 1200px) {
+    .menu-area-two .mobile-nav-toggler {
+        display: block; /* Muncul di layar kecil */
+    }
+    .navbar-wrap {
+        display: none; /* Menu desktop hilang */
+    }
+}
 
+/* new */
 
 
 
@@ -3501,6 +3605,30 @@ body.search-visible {
     font-size: 14px;
     margin-bottom: 30px;
     color: #000;
+}
+
+/* CSS Tambahan untuk Link Register */
+.account__switch {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.account__switch p {
+    font-size: 14px;
+    color: #666; /* Warna abu-abu halus untuk teks biasa */
+    margin: 0;
+}
+
+.account__switch a {
+    color: #1a4d3a; /* Hijau gelap (senada dengan tombol) */
+    font-weight: 700; /* Tebal agar menonjol */
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.account__switch a:hover {
+    color: #0d2e1f; /* Lebih gelap saat di-hover */
+    text-decoration: underline;
 }
 
 .form-grp {
