@@ -9,7 +9,7 @@
 @section('content')
     
     {{-- =========================================
-         HEADER / NAVBAR (TIDAK DIUBAH)
+         HEADER / NAVBAR
          ========================================= --}}
     <header id="home">
         <div id="header-fixed-height"></div>
@@ -83,11 +83,6 @@
                 <div class="menu-outer"></div>
             </nav>
         </div>
-
-        {{-- 
-           HERO SECTION (HANYA BAGIAN INI YANG DIUBAH STYLE-NYA)
-           Agar FIT di layar dan background benar.
-        --}}
         <section class="hero-alda"
             style="
                 /* 1. Setup Background Gambar (Layering) */
@@ -123,19 +118,17 @@
                             Keripik Jamur
                             <span>ALDA</span>
                         </h1>
-                        <a href="#produk" class="btn-alda">Beli Sekarang</a>
+                        <a href="{{ route('keranjang')}}" class="btn-alda">Beli Sekarang</a>
                     </div>
 
                     {{-- Product Image --}}
                     <div class="col-lg-6 text-lg-end text-center">
-                        {{-- Tambahkan style max-width agar gambar produk responsif di dalam hero --}}
                         <img src="{{ asset('assets/img/alda/product.png') }}" class="hero-product" alt="Keripik Jamur ALDA" style="max-width: 100%; height: auto;">
                     </div>
                 </div>
             </div>
         </section>
 
-        {{-- Tentang Kami Section (TIDAK DIUBAH) --}}
         <section class="tentang-kami-section" id="tentang">
             <div class="container">
                 <div class="tentang-kami-card">
@@ -154,7 +147,6 @@
             </div>
         </section>
 
-        {{-- Produk Section (TIDAK DIUBAH) --}}
         <section class="produk-section" id="produk">
             <div class="section-title"><h2>Produk</h2></div>
             <div class="swiper">
@@ -203,7 +195,8 @@
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
             </div>
-            <button class="btn-beli">Beli Sekarang</button>
+            <a href="{{ route('keranjang')}}"
+            class="btn-beli">Beli Sekarang </a>
         </section>
 
     </main>

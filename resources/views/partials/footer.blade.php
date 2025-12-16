@@ -2,7 +2,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/frontend.css') }}">
 @endpush
 
-{{-- PERHATIKAN: id="footer" ditambahkan di sini agar menu Contact berfungsi --}}
 <footer id="footer" class="footer-style-two">
     <div class="footer-two-top-wrap">
         <div class="container">
@@ -13,7 +12,6 @@
                         <div class="footer-widget">
                             <div class="footer-logo logo">
                                 <a href="{{ url('/') }}">
-                                    {{-- Menggunakan asset() agar gambar tidak broken --}}
                                     <img src="{{ asset('assets/img/alda/mascot.png') }}" alt="Logo">
                                 </a>
                             </div>
@@ -39,8 +37,7 @@
                         <div class="footer-widget">
                             <h4 class="fw-title">Ikuti Kami</h4>
                             <div class="footer-social">
-                                {{-- Format WA diubah ke 62 agar direct link berfungsi global --}}
-                                <a href="https://wa.me/62898786542083" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                <a href="https://wa.me/6285156416448" target="_blank"><i class="fab fa-whatsapp"></i></a>
                                 <a href="https://www.instagram.com/keripikjamur_/" target="_blank"><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>

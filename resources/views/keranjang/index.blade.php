@@ -150,7 +150,7 @@
 
             <!-- Action -->
             <div class="d-flex justify-content-end gap-2 m-4">
-                <a href="https://wa.me/" class="btn btn-success-subtle p-2"><img src="{{ asset('assets\img\icons\message.svg')}}" alt=""></a>
+                <a href="https://wa.me/6285156416448" class="btn btn-success-subtle p-2"><img src="{{ asset('assets\img\icons\message.svg')}}" alt=""></a>
                 <a href="" class="btn btn-success-subtle p-2"><img src="{{ asset('assets\img\icons\cart.svg')}}" alt=""></a>
             </div>
 
