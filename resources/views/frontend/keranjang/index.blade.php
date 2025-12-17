@@ -226,11 +226,9 @@
                 </div>
             </div>
 
-
-
             <!-- Produk -->
             <div id="keranjang-container">
-                @include('keranjang.keranjang-list', ['keranjang' => $keranjang])
+                @include('frontend.keranjang.keranjang-list', ['keranjang' => $keranjang])
             </div>
 
             <!-- Total -->
@@ -254,7 +252,10 @@
 
                 </div>
 
-                <a href="" class="btn btn-success d-flex align-items-stretch justify-content-between p-3">
+                <a href="#"
+                    class="btn btn-success d-flex align-items-stretch justify-content-between p-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalPromo">
                     Tambah Potongan Harga <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
@@ -268,6 +269,31 @@
                 Bayar Sekarang
             </button>
         </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalPromo" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Pilih Promo</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    @forelse($promos as $promo)
+                        <button class="btn btn-subtle-success w-100 mb-2 apply-promo"
+                                data-kode="{{ $promo->kode_promo }}">
+                            <strong>{{ $promo->kode_promo }}</strong><br>
+                            <small class="text-white">{{ $promo->nama_promo }}</small>
+                        </button>
+                    @empty
+                        <p class="text-muted text-center">Tidak ada promo aktif</p>
+                    @endforelse
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -294,9 +320,9 @@
                 .then(data => {
                     if (data.status === "success") {
                         document.getElementById("keranjang-container").innerHTML = data.html;
-                        document.getElementById("total-pesanan").innerText = "Rp " + data.total.toLocaleString();
-                        document.getElementById("potongan-harga").innerText = "Rp " + data.potongan.toLocaleString();
-                        document.getElementById("total-pembayaran").innerText = "Rp " + data.pembayaran.toLocaleString();
+                        document.getElementById("total-pesanan").innerText = "Rp " + Number(data.total).toLocaleString('id-ID');
+                        document.getElementById("potongan-harga").innerText = "Rp " + Number(data.potongan).toLocaleString('id-ID');
+                        document.getElementById("total-pembayaran").innerText = "Rp " + Number(data.pembayaran).toLocaleString('id-ID');
                     } else {
                         alert(data.message);
                     }
@@ -359,9 +385,9 @@
             .then(res => res.json())
             .then(data => {
                 document.getElementById("keranjang-container").innerHTML = data.html;
-                document.getElementById("total-pesanan").innerText = "Rp " + data.total.toLocaleString();
-                document.getElementById("potongan-harga").innerText = "Rp " + data.potongan.toLocaleString();
-                document.getElementById("total-pembayaran").innerText = "Rp " + data.pembayaran.toLocaleString();
+                document.getElementById("total-pesanan").innerText = "Rp " + Number(data.total).toLocaleString('id-ID');
+                document.getElementById("potongan-harga").innerText = "Rp " + Number(data.potongan).toLocaleString('id-ID');
+                document.getElementById("total-pembayaran").innerText = "Rp " + Number(data.pembayaran).toLocaleString('id-ID');
             });
         }
 
@@ -379,13 +405,47 @@
             .then(res => res.json())
             .then(data => {
                 document.getElementById("keranjang-container").innerHTML = data.html;
-                document.getElementById("total-pesanan").innerText = "Rp " + data.total.toLocaleString();
-                document.getElementById("potongan-harga").innerText = "Rp " + data.potongan.toLocaleString();
-                document.getElementById("total-pembayaran").innerText = "Rp " + data.pembayaran.toLocaleString();
+                document.getElementById("total-pesanan").innerText = "Rp " + Number(data.total).toLocaleString('id-ID');
+                document.getElementById("potongan-harga").innerText = "Rp " + Number(data.potongan).toLocaleString('id-ID');
+                document.getElementById("total-pembayaran").innerText = "Rp " + Number(data.pembayaran).toLocaleString('id-ID');
             });
         }
     });
 
 </script>
 
+<script>
+    document.addEventListener("click", function(e){
+        if (e.target.closest(".apply-promo")) {
+            const btn = e.target.closest(".apply-promo");
+            const kode = btn.dataset.kode;
+
+            fetch("{{ route('keranjang.apply-promo') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({ kode_promo: kode })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById("potongan-harga").innerText =
+                        "Rp " + Number(data.potongan).toLocaleString('id-ID');
+
+                    document.getElementById("total-pembayaran").innerText =
+                        "Rp " + Number(data.pembayaran).toLocaleString('id-ID');
+
+                    bootstrap.Modal.getInstance(
+                        document.getElementById("modalPromo")
+                    ).hide();
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+    });
+</script>
 @endpush

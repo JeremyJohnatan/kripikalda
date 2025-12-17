@@ -37,7 +37,18 @@ class DashboardController
             ->orderBy('total_jumlah', 'ASC')
             ->first();
 
-        $revenue = $query->sum('subtotal');
+        // Pendapatan
+        $revenueQuery = Transaksi::query();
+
+        if ($filter === 'Range') {
+            $range = $request->query('range');
+            if ($range) {
+                [$start, $end] = explode(' - ', $range);
+                $revenueQuery->whereBetween('tanggal', [$start, $end]);
+            }
+        }
+
+        $revenue = $revenueQuery->sum('total');
 
         // Donut Chart
         $donut = (clone $query)
@@ -158,7 +169,18 @@ class DashboardController
             ->orderBy('total_jumlah', 'ASC')
             ->first();
 
-        $revenue = $query->sum('subtotal');
+        // Pendapatan
+        $revenueQuery = Transaksi::query();
+
+        if ($filter === 'Range') {
+            $range = $request->query('range');
+            if ($range) {
+                [$start, $end] = explode(' - ', $range);
+                $revenueQuery->whereBetween('tanggal', [$start, $end]);
+            }
+        }
+
+        $revenue = $revenueQuery->sum('total');
 
         // Donut Chart
         $donut = (clone $query)

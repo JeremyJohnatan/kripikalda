@@ -234,6 +234,10 @@ input {
 .nav-link:hover {
     color: var(--tg-orange) !important;
 }
+.nav-link.active {
+    color: var(--tg-orange) !important;
+    background-color: var(--tg-body-font-color) !important;
+}
 
 /* Bootstrap 5 */
 .container {

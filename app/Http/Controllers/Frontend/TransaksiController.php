@@ -14,38 +14,60 @@ class TransaksiController
     public function checkout(Request $request)
     {
         $userId = Auth::id();
-        $keranjang = Keranjang::where('id_user', $userId)->with('produk')->get();
+
+        $keranjang = Keranjang::where('id_user', $userId)
+            ->with('produk')
+            ->get();
 
         if ($keranjang->isEmpty()) {
             return back()->with('error', 'Keranjang kosong');
         }
 
-        $total = 0;
+        $subtotal = 0;
         foreach ($keranjang as $item) {
-            $total += $item->produk->harga * $item->jumlah;
+            $subtotal += $item->produk->harga * $item->jumlah;
         }
 
+        $promoSession = session('promo');
+
+        $diskon = 0;
+        $kodePromo = null;
+
+        if ($promoSession) {
+            $diskon = $promoSession['diskon'];
+            $kodePromo = $promoSession['kode'];
+        }
+
+        $totalBayar = max(0, $subtotal - $diskon);
+
         $transaksi = Transaksi::create([
-            'id_user' => $userId,
-            'total' => $total,
-            'tanggal' => now(),
-            'status_pembayaran' => 'Lunas',
-            'status_pengiriman' => 'Belum Dikirim',
-            'alamat' => $request->alamat,
-            'note' => $request->note
+            'id_user'            => $userId,
+            'tanggal'            => now(),
+            'alamat'             => $request->alamat,
+            'status_pembayaran'  => 'Lunas',
+            'status_pengiriman'  => 'Belum Dikirim',
+            'subtotal'           => $subtotal,
+            'diskon'             => $diskon,
+            'kode_promo'         => $kodePromo,
+            'total'              => $totalBayar,
+            'note'               => $request->note
         ]);
 
         foreach ($keranjang as $item) {
             DetailTransaksi::create([
                 'id_transaksi' => $transaksi->id_transaksi,
-                'id_produk' => $item->id_produk,
-                'jumlah' => $item->jumlah,
-                'subtotal' => $item->produk->harga
+                'id_produk'    => $item->id_produk,
+                'jumlah'       => $item->jumlah,
+                'subtotal'     => $item->produk->harga * $item->jumlah
             ]);
         }
 
         Keranjang::where('id_user', $userId)->delete();
+        session()->forget('promo');
 
-        return redirect()->route('keranjang')->with('success', 'Pembayaran berhasil!');
+        return redirect()
+            ->route('keranjang')
+            ->with('success', 'Pembayaran berhasil');
     }
+
 }

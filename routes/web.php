@@ -2,12 +2,14 @@
 use App\Http\Controllers\frontend\TransaksiController;
 use App\Http\Controllers\frontend\KeranjangController;
 use App\Http\Controllers\frontend\WelcomeController;
+
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\GeminiController;
 use App\Http\Controllers\Backend\PesananController;
+use App\Http\Controllers\Backend\PromoController;
 use App\Http\Controllers\Backend\UserController;
-
+use App\Http\Controllers\Frontend\HistoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,6 +30,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/pesanan/cetak/pdf', [PesananController::class, 'cetakPdf'])->name('pesanan.cetak.pdf');
 
     Route::resource('user', UserController::class)->only(['index', 'destroy']);
+
+    Route::resource('promo', PromoController::class)->names('promo');
 });
 
 Route::middleware(['auth', 'customer'])->group(function () {
@@ -38,8 +42,11 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::delete('/keranjang/hapus',   [KeranjangController::class, 'deleteAll'])->name('keranjang.delete');
     Route::post('/keranjang/update/{id}', [KeranjangController::class, 'updateQty']);
     Route::delete('/keranjang/delete/{id}', [KeranjangController::class, 'deleteItem']);
+    Route::post('/keranjang/apply-promo', [KeranjangController::class, 'applyPromo'])->name('keranjang.apply-promo');
 
     Route::post('/checkout', [TransaksiController::class, 'checkout'])->name('checkout');
+
+    Route::resource('history', HistoryController::class)->names('history');
 });
 
 require __DIR__.'/auth.php';

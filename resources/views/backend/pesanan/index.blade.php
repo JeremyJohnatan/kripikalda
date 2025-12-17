@@ -8,9 +8,10 @@
 <div class="d-flex flex-wrap card shadow-sm px-4" style="border-radius: 35px;">
     <div class="m-0 ms-2 me-4">
         <div class="d-flex justify-content-end">
-        <a href="{{ route('pesanan.cetak.pdf') }}" class="btn-success d-flex align-items-center p-2 gap-2">
-            <img src="{{ asset('assets/img/icons/lets-icons_paper-fill.svg') }}" alt=""> Cetak Laporan
-        </a>
+            <a href="{{ route('pesanan.cetak.pdf') }}" class="btn-success d-flex align-items-center p-2 gap-2">
+                <img src="{{ asset('assets/img/icons/lets-icons_paper-fill.svg') }}" alt=""> Cetak Laporan
+            </a>
+        </div>
     </div>
 
     <div class="sub-title mt-0">

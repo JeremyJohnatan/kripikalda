@@ -50,9 +50,9 @@
     {{-- LOGIC CUSTOMER --}}
     @elseif(auth()->check() && auth()->user()->role === 'Customer')
 
-        @if(!request()->routeIs('keranjang'))
-            
-            {{-- 
+        @if(!request()->routeIs('keranjang', 'history.*'))
+
+            {{--
                MODIFIKASI PENTING:
                Cek apakah ini Halaman Home ('/') atau ('welcome-page').
                Jika YA: Jangan load header bawaan (karena kita pakai header custom transparan).
@@ -83,9 +83,9 @@
 
     {{-- LOGIC GUEST (BELUM LOGIN) --}}
     @else
-        {{-- 
+        {{--
            MODIFIKASI PENTING:
-           Jika di halaman Home, hapus class "main-area" agar tidak ada padding bawaan 
+           Jika di halaman Home, hapus class "main-area" agar tidak ada padding bawaan
            yang merusak tampilan Hero Full Screen.
         --}}
         <main class="{{ (request()->is('/') || request()->is('welcome-page')) ? '' : 'main-area fix' }} {{ request()->routeIs('login','register') ? 'no-padding' : '' }}">
