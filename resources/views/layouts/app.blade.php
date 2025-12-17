@@ -1,5 +1,6 @@
 <!doctype html>
 <html class="no-js" lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -22,7 +23,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
+        rel="stylesheet" />
 
     @stack('styles')
 </head>
@@ -34,63 +36,68 @@
 
     {{-- LOGIC ADMIN --}}
     @if(auth()->check() && auth()->user()->role === 'Admin')
-        <div class="d-flex">
-            @include('partials.sidebar')
+    <div class="d-flex">
+        @include('partials.sidebar')
 
-            <main class="main-area">
-                <button class="btn btn-light d-lg-none m-3" id="toggleSidebar">
-                    <i class="fas fa-bars"></i>
-                </button>
+        <main class="main-area">
+            <button class="btn btn-light d-lg-none m-3" id="toggleSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
 
-                <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-                @yield('content')
-            </main>
-        </div>
+            <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+            @yield('content')
+        </main>
+    </div>
 
     {{-- LOGIC CUSTOMER --}}
     @elseif(auth()->check() && auth()->user()->role === 'Customer')
 
-        @if(!request()->routeIs('keranjang'))
-            
-            {{-- 
+    @if(!request()->routeIs('keranjang'))
+
+    {{--
                MODIFIKASI PENTING:
                Cek apakah ini Halaman Home ('/') atau ('welcome-page').
                Jika YA: Jangan load header bawaan (karena kita pakai header custom transparan).
                Jika BUKAN: Load header biasa.
             --}}
-            @if(!request()->is('/') && !request()->is('welcome-page'))
-                @include('partials.header')
-            @endif
+    @if(!request()->is('/') && !request()->is('welcome-page'))
+    @include('partials.header')
+    @endif
 
+    <main class="main-full">
+        @yield('content')
+    </main>
+
+
+
+    {{-- Footer tetap ditampilkan di semua halaman --}}
+    @include('partials.footer')
+
+    @else
+    {{-- Tampilan Halaman Keranjang (Pakai Sidebar) --}}
+    <div class="d-flex">
+        @include('partials.sidebar')
+        <main class="main-area">
+            <button class="btn btn-light d-lg-none m-3" id="toggleSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
             @yield('content')
-
-            {{-- Footer tetap ditampilkan di semua halaman --}}
-            @include('partials.footer')
-
-        @else
-            {{-- Tampilan Halaman Keranjang (Pakai Sidebar) --}}
-            <div class="d-flex">
-                @include('partials.sidebar')
-                <main class="main-area">
-                    <button class="btn btn-light d-lg-none m-3" id="toggleSidebar">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-                    @yield('content')
-                </main>
-            </div>
-        @endif
+        </main>
+    </div>
+    @endif
 
     {{-- LOGIC GUEST (BELUM LOGIN) --}}
     @else
-        {{-- 
+    {{--
            MODIFIKASI PENTING:
            Jika di halaman Home, hapus class "main-area" agar tidak ada padding bawaan 
            yang merusak tampilan Hero Full Screen.
         --}}
-        <main class="{{ (request()->is('/') || request()->is('welcome-page')) ? '' : 'main-area fix' }} {{ request()->routeIs('login','register') ? 'no-padding' : '' }}">
-            @yield('content')
-        </main>
+    <main
+        class="{{ (request()->is('/') || request()->is('welcome-page')) ? '' : 'main-area fix' }} {{ request()->routeIs('login','register') ? 'no-padding' : '' }}">
+        @yield('content')
+    </main>
     @endif
 
 
@@ -117,31 +124,32 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-        // Cek null safety sebelum inject
-        const injectImages = document.querySelectorAll("img.injectable");
-        if(injectImages.length > 0){
-             SVGInject(injectImages);
-        }
+    // Cek null safety sebelum inject
+    const injectImages = document.querySelectorAll("img.injectable");
+    if (injectImages.length > 0) {
+        SVGInject(injectImages);
+    }
     </script>
 
     <script>
-        const sidebar = document.getElementById('sidebarMenu');
-        const backdrop = document.getElementById('sidebarBackdrop');
-        const toggleBtn = document.getElementById('toggleSidebar');
+    const sidebar = document.getElementById('sidebarMenu');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    const toggleBtn = document.getElementById('toggleSidebar');
 
-        if(toggleBtn && sidebar && backdrop) {
-            toggleBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('show');
-                backdrop.classList.toggle('show');
-            });
+    if (toggleBtn && sidebar && backdrop) {
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+            backdrop.classList.toggle('show');
+        });
 
-            backdrop.addEventListener('click', () => {
-                sidebar.classList.remove('show');
-                backdrop.classList.remove('show');
-            });
-        }
+        backdrop.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            backdrop.classList.remove('show');
+        });
+    }
     </script>
 
     @stack('scripts')
 </body>
+
 </html>

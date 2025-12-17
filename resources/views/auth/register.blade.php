@@ -21,7 +21,7 @@
             <!-- RIGHT -->
             <div class="register-alda-right">
 
-                <h2 class="register-title">Registrasi</h2>
+                <h2 class="register-title" class="pt-100">Registrasi</h2>
                 <p class="register-subtitle">Create your account</p>
 
                 {{-- Breeze Register Form --}}

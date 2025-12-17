@@ -24,38 +24,26 @@
                 <p class="login-subtitle">Login to your account continue</p>
 
                 {{-- Breeze Login Form --}}
-                <form method="POST" action="{{ route('login') }}" class="account__form">
+                <form method="POST" action="{{ route('home') }}" class="account__form">
                     @csrf
 
                     <!-- Email -->
                     <div class="form-grp">
                         <label for="email">Email</label>
-                        <input
-                            id="email"
-                            type="email"
-                            name="email"
-                            value="{{ old('email') }}"
-                            placeholder="Masukkan Email..."
-                            required
-                            autofocus
-                        >
+                        <input id="email" type="email" name="email" value="{{ old('email') }}"
+                            placeholder="Masukkan Email..." required autofocus>
                         @error('email')
-                            <small class="text-red-500">{{ $message }}</small>
+                        <small class="text-red-500">{{ $message }}</small>
                         @enderror
                     </div>
 
                     <!-- Password -->
                     <div class="form-grp">
                         <label for="password">Password</label>
-                        <input
-                            id="password"
-                            type="password"
-                            name="password"
-                            placeholder="Masukkan Password..."
-                            required
-                        >
+                        <input id="password" type="password" name="password" placeholder="Masukkan Password..."
+                            required>
                         @error('password')
-                            <small class="text-red-500">{{ $message }}</small>
+                        <small class="text-red-500">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -67,23 +55,24 @@
                         </div>
 
                         @if (Route::has('password.request'))
-                            <div class="account__check-forgot">
-                                <a href="{{ route('password.request') }}">
-                                    Lupa Password?
-                                </a>
-                            </div>
+                        <div class="account__check-forgot">
+                            <a href="{{ route('password.request') }}">
+                                Lupa Password?
+                            </a>
+                        </div>
                         @endif
                     </div>
 
-                    <button type="submit" class="login-btn">Masuk</button>
+                    <button type="button" class="login-btn">Masuk</button>
+
 
                     <div class="account__switch">
                         <p>Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a></p>
                     </div>
 
-                </form> </div>
+                </form>
+            </div>
         </div>
     </div>
 </section>
 @endsection
-                
