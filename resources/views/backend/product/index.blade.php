@@ -9,35 +9,17 @@
 
     <!-- Category -->
     <div class="d-flex gap-2">
-        <a href="{{ route('product.index') }}"
-        class="btn-sm btn-success-subtle {{ !$kategori ? 'active' : '' }}">
+    <a href="{{ route('product.index') }}"
+       class="btn btn-sm btn-success-subtle {{ !$kategoriId ? 'active' : '' }}">
         Semua
-        </a>
+    </a>
 
-        <a href="{{ route('product.index', ['kategori' => 'Original']) }}"
-        class="btn-sm btn-success-subtle {{ $kategori == 'Original' ? 'active' : '' }}">
-        Original
+    @foreach($kategoris as $kat)
+        <a href="{{ route('product.index', ['kategori' => $kat->id]) }}"
+           class="btn btn-sm btn-success-subtle {{ $kategoriId == $kat->id ? 'active' : '' }}">
+            {{ $kat->nama_kategori }}
         </a>
-
-        <a href="{{ route('product.index', ['kategori' => 'BBQ']) }}"
-        class="btn-sm btn-success-subtle {{ $kategori == 'BBQ' ? 'active' : '' }}">
-        BBQ
-        </a>
-
-        <a href="{{ route('product.index', ['kategori' => 'Ayam Panggang']) }}"
-        class="btn-sm btn-success-subtle {{ $kategori == 'Ayam Panggang' ? 'active' : '' }}">
-        Ayam Panggang
-        </a>
-
-        <a href="{{ route('product.index', ['kategori' => 'Pedas']) }}"
-        class="btn-sm btn-success-subtle {{ $kategori == 'Pedas' ? 'active' : '' }}">
-        Pedas
-        </a>
-
-        <a href="{{ route('product.index', ['kategori' => 'Balado']) }}"
-        class="btn-sm btn-success-subtle {{ $kategori == 'Balado' ? 'active' : '' }}">
-        Balado
-        </a>
+    @endforeach
     </div>
 
     <!-- Action -->
@@ -96,9 +78,23 @@
 
                     <div class="d-flex justify-content-between align-items-center mt-2">
                         <h4 class="fw-bold fs-5">Rp {{ number_format($product->harga, 0, ',', '.') }} </h4>
-                        <a href="{{ route('product.edit', $product->id_produk) }}" class="btn btn-sm btn-dark">
-                            <i class="fas fa-pen"></i>
-                        </a>
+
+
+                         <div class="d-flex gap-2">
+        <!-- Detail -->
+        <a href="{{ route('product.show', $product->id_produk) }}"
+           class="btn btn-sm btn-secondary"
+           title="Lihat Detail">
+            <i class="fas fa-eye"></i>
+        </a>
+
+        <!-- Edit -->
+        <a href="{{ route('product.edit', $product->id_produk) }}"
+           class="btn btn-sm btn-dark"
+           title="Edit Produk">
+            <i class="fas fa-pen"></i>
+        </a>
+    </div>
                     </div>
                 </div>
             </div>

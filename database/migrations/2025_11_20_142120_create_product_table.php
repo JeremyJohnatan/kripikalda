@@ -17,7 +17,9 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->decimal('harga', 10, 2);
             $table->integer('stok');
-            $table->enum('item_produk', ['Original', 'BBQ', 'Pedas', 'Ayam Panggang', 'Balado'])->nullable();
+            $table->foreignId('kategori_id')
+          ->constrained('kategori')
+          ->cascadeOnDelete();
             $table->timestamps();
         });
     }

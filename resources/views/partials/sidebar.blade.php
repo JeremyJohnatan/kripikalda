@@ -27,6 +27,13 @@
             Rincian Penjualan
         </a>
 
+        <a href="{{ route('kategori.index') }}"
+   class="nav-link nav-item {{ request()->routeIs('kategori.*') ? 'active' : '' }}">
+    <i class="fas fa-tags me-2"></i>
+    Kategori
+</a>
+
+
         <a href="{{ route('product.index') }}" class="nav-link nav-item {{ request()->routeIs('product.index') ? 'active' : '' }}">
             <i class="fas fa-box me-2"></i>
             Produk

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Product;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -12,19 +13,24 @@ class ProductController
 {
     public function index(Request $request)
     {
-        $kategori = $request->query('kategori');
+        $kategoriId = $request->query('kategori');
 
-        $products = Product::when($kategori, function ($query) use ($kategori) {
-            return $query->where('item_produk', $kategori);
-        })->get();
+        $products = Product::with('kategori')
+            ->when($kategoriId, function ($query) use ($kategoriId) {
+                $query->where('kategori_id', $kategoriId);
+            })
+            ->get();
 
-        return view('backend.product.index', compact('products', 'kategori'));
+        $kategoris = Kategori::all();
+
+        return view('backend.product.index', compact('products', 'kategoris', 'kategoriId'));
     }
 
 
     public function create()
     {
-        return view('backend.product.create');
+        $kategoris = Kategori::all();
+        return view('backend.product.create', compact('kategoris'));
     }
 
     public function store(Request $request)
@@ -37,7 +43,7 @@ class ProductController
                 'berat'        => 'required|numeric',
                 'harga'        => 'required|numeric',
                 'stok'         => 'required|integer',
-                'kategori'     => 'nullable',
+                'kategori_id'  => 'required|exists:kategori,id',
                 'gambar'       => 'nullable|file|mimes:jpg,jpeg,png,webp,pdf'
             ]);
 
@@ -60,7 +66,7 @@ class ProductController
                 'deskripsi'   => $validated['berat'],
                 'harga'       => $validated['harga'],
                 'stok'        => $validated['stok'],
-                'item_produk' => $validated['kategori'],
+                'kategori_id' => $validated['kategori_id'],
                 'gambar'      => $storedPath,
             ]);
 
@@ -84,7 +90,9 @@ class ProductController
     public function edit($id)
     {
         $product = Product::where('id_produk', $id)->firstOrFail();
-        return view('backend.product.edit', compact('product'));
+        $kategoris = Kategori::all();
+
+        return view('backend.product.edit', compact('product', 'kategoris'));
     }
 
     public function update(Request $request, $id)
@@ -100,7 +108,7 @@ class ProductController
                 'berat'        => 'required|numeric',
                 'harga'        => 'required|numeric',
                 'stok'         => 'required|integer',
-                'kategori'     => 'nullable|string',
+                'kategori_id'  => 'required|exists:kategori,id',
                 'gambar'       => 'nullable|file|mimes:jpg,jpeg,png,webp,pdf'
             ]);
 
@@ -127,7 +135,7 @@ class ProductController
             $product->deskripsi   = $validated['berat'];
             $product->harga       = $validated['harga'];
             $product->stok        = $validated['stok'];
-            $product->item_produk = $validated['kategori'];
+            $product->kategori_id = $validated['kategori_id'];
 
             $product->save();
 
@@ -147,6 +155,16 @@ class ProductController
                 ->with('error', 'Gagal mengupdate produk');
         }
     }
+
+    public function show($id)
+{
+    $product = Product::with('kategori')
+        ->where('id_produk', $id)
+        ->firstOrFail();
+
+    return view('backend.product.show', compact('product'));
+}
+
 
     public function massDelete(Request $request)
     {

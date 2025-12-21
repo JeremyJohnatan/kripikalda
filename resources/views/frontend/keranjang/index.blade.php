@@ -256,7 +256,7 @@
                     class="btn btn-success d-flex align-items-stretch justify-content-between p-3"
                     data-bs-toggle="modal"
                     data-bs-target="#modalPromo">
-                    Tambah Potongan Harga <i class="fa fa-chevron-right"></i>
+                    Tambah Promo <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
 

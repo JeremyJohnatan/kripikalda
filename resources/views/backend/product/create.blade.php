@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="berat" class="form-label fw-semibold">Berat (gram)</label>
+                    <label for="berat" class="form-label fw-semibold">Berat Bersih (Netto) – gram</label>
                     <input type="number" class="form-control rounded-3" id="berat" name="berat" placeholder="Contoh: 1000" required>
                 </div>
 
@@ -36,19 +36,26 @@
                     <input type="number" min="0" class="form-control rounded-3" id="stok" name="stok" required>
                 </div>
 
-                <div class="col-md-6">
-                    <label for="kategori" class="form-label fw-semibold">Kategori</label>
+               <div class="col-md-6">
+                    <label for="kategori_id" class="form-label fw-semibold">Kategori</label>
 
-                    <select name="kategori" id="kategori"
-                        class="form-control rounded-3 shadow-sm border-1 @error('kategori') is-invalid @enderror">
+                    <select name="kategori_id" id="kategori_id"
+                        class="form-control rounded-3 shadow-sm border-1
+                        @error('kategori_id') is-invalid @enderror" required>
 
-                        <option value="" {{ old('kategori') == '' ? 'selected' : '' }}>Tidak ada</option>
-                        <option value="Original" {{ old('kategori') == 'Original' ? 'selected' : '' }}>Original</option>
-                        <option value="BBQ" {{ old('kategori') == 'BBQ' ? 'selected' : '' }}>BBQ</option>
-                        <option value="Pedas" {{ old('kategori') == 'Pedas' ? 'selected' : '' }}>Pedas</option>
-                        <option value="Ayam Panggang" {{ old('kategori') == 'Ayam Panggang' ? 'selected' : '' }}>Ayam Panggang</option>
-                        <option value="Balado" {{ old('kategori') == 'Balado' ? 'selected' : '' }}>Balado</option>
+                        <option value="">Pilih Kategori</option>
+
+                        @foreach($kategoris as $kategori)
+                            <option value="{{ $kategori->id }}"
+                                {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>
+                                {{ $kategori->nama_kategori }}
+                            </option>
+                        @endforeach
                     </select>
+
+                    @error('kategori_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="col-md-6">
@@ -78,7 +85,7 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        $('#kategori').select2({
+        $('#kategori_id').select2({
             theme: 'bootstrap-5',
             placeholder: "Pilih kategori",
             allowClear: true

@@ -20,7 +20,7 @@ class Product extends Model
         'deskripsi',
         'harga',
         'stok',
-        'item_produk',
+        'kategori_id',
         'gambar'
     ];
 
@@ -28,4 +28,10 @@ class Product extends Model
     {
         return $this->hasMany(DetailTransaksi::class, 'id_produk', 'id_produk');
     }
+
+    public function kategori()
+{
+    return $this->belongsTo(Kategori::class);
+}
+
 }

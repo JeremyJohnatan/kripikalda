@@ -3,6 +3,7 @@ use App\Http\Controllers\frontend\TransaksiController;
 use App\Http\Controllers\frontend\KeranjangController;
 use App\Http\Controllers\frontend\WelcomeController;
 
+use App\Http\Controllers\Backend\KategoriController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\GeminiController;
@@ -21,6 +22,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard/cetak/pdf', [DashboardController::class, 'cetakPdf'])->name('dashboard.cetak.pdf');
 
     Route::get('/get-insight', [GeminiController::class, 'getInsight'])->name('get.insight');
+    Route::resource('kategori', KategoriController::class);
 
     Route::delete('/product/mass-delete', [ProductController::class, 'massDelete'])->name('product.massDelete');
     Route::resource('product', ProductController::class)->names('product');
