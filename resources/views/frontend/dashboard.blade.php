@@ -27,9 +27,6 @@
                                 </div>
                                 <div class="navbar-wrap main-menu d-none d-xl-flex">
                                     <ul class="navigation">
-                                        <li class="{{ Request::is('welcome-page') ? 'active' : '' }}">
-                                            <a href="{{ url('/welcome-page') }}">Home</a>
-                                        </li>   
                                         <li><a href="{{ route('keranjang') }}">Cart</a></li>
                                         <li><a href="#footer">Contact</a></li>
                                     </ul>
