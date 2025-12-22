@@ -47,12 +47,13 @@
                                                 <i class="fas fa-chevron-down"></i>
                                             </span>
                                             <div class="profile-menu">
-                                                <form method="POST" action="{{ route('logout') }}">
-                                                    @csrf
-                                                    <button type="submit" class="logout-btn">
-                                                        <i class="fas fa-sign-out-alt"></i> Logout
-                                                    </button>
-                                                </form>
+                                                <form id="logout-form" method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="button" id="logout-btn" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+</form>
+
                                             </div>
                                         </div>
                                     @else
@@ -215,4 +216,25 @@
             },
         });
     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+document.getElementById('logout-btn').addEventListener('click', function() {
+    Swal.fire({
+        title: 'Yakin ingin logout?',
+        text: "Kamu akan keluar dari akun ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Logout!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('logout-form').submit();
+        }
+    });
+});
+</script>
+
 @endpush

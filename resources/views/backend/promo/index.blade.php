@@ -26,7 +26,6 @@
                     <th class="fw-semibold py-1 text-start">Nama Promo</th>
                     <th class="fw-semibold py-1 text-center">Tipe</th>
                     <th class="fw-semibold py-1 text-center">Nilai</th>
-                    <th class="fw-semibold py-1 text-center">Minimal Belanja</th>
                     <th class="fw-semibold py-1 text-center">Periode</th>
                     <th class="fw-semibold py-1 text-center">Status</th>
                     <th class="fw-semibold py-1 text-end">Aksi</th>
@@ -60,12 +59,6 @@
                     </td>
 
                     <td class="text-center">
-                        {{ $promo->minimal_belanja
-                            ? 'Rp ' . number_format($promo->minimal_belanja, 0, ',', '.')
-                            : '-' }}
-                    </td>
-
-                    <td class="text-center">
                         {{ $promo->mulai->format('d M Y') }} <br>
                         <small class="text-muted">s/d</small><br>
                         {{ $promo->berakhir->format('d M Y') }}
@@ -82,16 +75,15 @@
                             Edit
                         </a>
 
-                        <form action="{{ route('promo.destroy', $promo->id) }}"
-                            method="POST"
-                            class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Yakin hapus promo?')">
-                                Hapus
-                            </button>
-                        </form>
+                         <form action="{{ route('promo.destroy', $promo->id) }}"
+        method="POST"
+        class="d-inline">
+        @csrf
+        @method('DELETE')
+        <button type="button" class="btn btn-sm btn-danger delete-promo-btn">
+            Hapus
+        </button>
+    </form>
                     </td>
                 </tr>
                 @endforeach
@@ -101,3 +93,32 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.querySelectorAll('.delete-promo-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const form = this.closest('form');
+
+        Swal.fire({
+            title: 'Yakin ingin menghapus promo?',
+            text: "Data Promo yang dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+});
+</script>
+@endpush
+

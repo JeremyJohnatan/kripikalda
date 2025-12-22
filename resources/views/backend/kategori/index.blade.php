@@ -59,10 +59,9 @@
                               class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Yakin hapus kategori?')">
-                                Hapus
-                            </button>
+                            <button type="button" class="btn btn-sm btn-danger delete-btn">
+    Hapus
+</button>
                         </form>
                     </td>
                 </tr>
@@ -78,3 +77,32 @@
     </div>
 </div>
 @endsection
+
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.querySelectorAll('.delete-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const form = this.closest('form'); 
+
+        Swal.fire({
+            title: 'Yakin ingin menghapus?',
+            text: "Data kategori yang dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit(); // submit form jika konfirmasi
+            }
+        });
+    });
+});
+</script>
+@endpush

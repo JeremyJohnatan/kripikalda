@@ -106,6 +106,9 @@
 @endsection
 
 @push('scripts')
+<!-- Load SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
 let deleteMode = false;
 
@@ -122,15 +125,30 @@ document.getElementById('delete-toggle').addEventListener('click', function () {
         const checked = document.querySelectorAll('.select-product:checked');
 
         if (checked.length === 0) {
-            alert('Pilih minimal satu produk dulu 😭');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Pilih minimal satu produk dulu 😭',
+            });
             return;
         }
 
-        if (confirm('Yakin mau hapus data yang dipilih?')) {
-            document.getElementById('delete-form').submit();
-        }
+        Swal.fire({
+            title: 'Yakin mau hapus produk yang dipilih?',
+            text: "Data product yang dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form').submit();
+            }
+        });
     }
 });
 </script>
-
 @endpush
+

@@ -2,7 +2,7 @@
 use App\Http\Controllers\frontend\TransaksiController;
 use App\Http\Controllers\frontend\KeranjangController;
 use App\Http\Controllers\frontend\WelcomeController;
-
+use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Backend\KategoriController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -50,5 +50,8 @@ Route::middleware(['auth', 'customer'])->group(function () {
 
     Route::resource('history', HistoryController::class)->names('history');
 });
+
+Route::post('/otp/send', [OtpController::class, 'send'])->name('otp.send');
+Route::post('/otp/verify', [OtpController::class, 'verify'])->name('otp.verify');
 
 require __DIR__.'/auth.php';

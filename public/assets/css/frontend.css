@@ -3846,13 +3846,13 @@ body.search-visible {
 .register__form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
 .register-form-grp {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 1px;
 }
 
 .register-form-grp label {

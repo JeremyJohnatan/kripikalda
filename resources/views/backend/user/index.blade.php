@@ -52,20 +52,19 @@
                         </td>
 
                         <td class="fw-semibold py-1 text-end">
-                            <form method="POST"
-                                  action="{{ route('user.destroy', $user->id) }}"
-                                  onsubmit="return confirm('Yakin ingin menghapus user ini?')"
-                                  class="d-inline">
-                                @csrf
-                                @method('DELETE')
+    <form method="POST"
+          action="{{ route('user.destroy', $user->id) }}"
+          class="d-inline">
+        @csrf
+        @method('DELETE')
 
-                                <button type="submit"
-                                        class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash me-1"></i>
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
+        <button type="button" class="btn btn-danger btn-sm delete-user-btn">
+            <i class="fas fa-trash me-1"></i>
+            Delete
+        </button>
+    </form>
+</td>
+
                     </tr>
                     @endforeach
 
@@ -83,3 +82,31 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.querySelectorAll('.delete-user-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const form = this.closest('form');
+
+        Swal.fire({
+            title: 'Yakin ingin menghapus user ini?',
+            text: "Data user yang dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+});
+</script>
+@endpush

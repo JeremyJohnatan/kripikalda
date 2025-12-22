@@ -18,7 +18,7 @@
 
                 <div class="col-md-6">
                     <label for="nama_produk" class="form-label fw-semibold">Nama Produk</label>
-                    <input type="text" class="form-control rounded-3" id="nama_produk" name="nama_produk" required>
+                    <input type="text" class="form-control rounded-3" id="nama_produk" name="nama_produk" placeholder="Ayam Geprek" required>
                 </div>
 
                 <div class="col-md-6">
@@ -28,12 +28,12 @@
 
                 <div class="col-md-6">
                     <label for="harga" class="form-label fw-semibold">Harga</label>
-                    <input type="number" class="form-control rounded-3" id="harga" name="harga" required>
+                    <input type="number" class="form-control rounded-3" id="harga" name="harga" placeholder="Contoh: 20000" required>
                 </div>
 
                 <div class="col-md-6">
                     <label for="stok" class="form-label fw-semibold">Stok</label>
-                    <input type="number" min="0" class="form-control rounded-3" id="stok" name="stok" required>
+                    <input type="number" min="0" class="form-control rounded-3" id="stok" name="stok" placeholder="Contoh: 100" required>
                 </div>
 
                <div class="col-md-6">
