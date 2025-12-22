@@ -37,34 +37,6 @@
                                     <a href="{{ route('keranjang')}}" class="tg-btn">Order Now</a>
                                 </div>
 
-                                {{-- Bagian Profile User --}}
-                                @auth
-                                    <div class="profile-dropdown">
-                                        {{-- Foto Profile: Menggunakan background hijau tua agar selaras, teks putih --}}
-                                        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=1a4d2e&color=fff&size=128" 
-                                             alt="Profile" class="profile-img">
-                                        
-                                        {{-- Nama User --}}
-                                        <span class="profile-name">
-                                            {{ Str::limit(Auth::user()->name, 8) }} 
-                                            <i class="fas fa-chevron-down"></i>
-                                        </span>
-
-                                        {{-- Dropdown Logout --}}
-                                        <div class="profile-menu">
-                                            <form method="POST" action="{{ route('logout') }}">
-                                                @csrf
-                                                <button type="submit" class="logout-btn">
-                                                    <i class="fas fa-sign-out-alt"></i> Logout
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                @else
-                                    {{-- Jika Belum Login --}}
-                                    <a href="{{ route('login') }}" class="login-link">Login</a>
-                                @endauth
-
                             </div>
                             {{-- End AREA KANAN --}}
 
