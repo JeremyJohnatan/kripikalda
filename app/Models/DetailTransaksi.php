@@ -27,7 +27,9 @@ class DetailTransaksi extends Model
         return $this->belongsTo(Transaksi::class, 'id_transaksi', 'id_transaksi');
     }
 
-    public function product(): BelongsTo
+    // SAYA UBAH NAMA FUNCTION INI DARI 'product' MENJADI 'produk'
+    // Supaya error "undefined relationship [produk]" hilang
+    public function produk(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'id_produk', 'id_produk');
     }

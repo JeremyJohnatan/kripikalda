@@ -34,9 +34,11 @@ class Transaksi extends Model
     ];
 
     public function user()
-    {
-        return $this->belongsTo(User::class, 'id');
-    }
+{
+    // Parameter kedua ('id_user') memberitahu Laravel nama kolom di tabel transaksis
+    // Parameter ketiga ('id') memberitahu Laravel nama kolom di tabel users
+    return $this->belongsTo(User::class, 'id_user', 'id');
+}
 
     public function detail(): HasMany
     {

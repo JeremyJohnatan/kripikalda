@@ -148,13 +148,11 @@
     <div class="col-lg-5">
         <div class="card shadow-sm d-flex flex-column" style="border-radius: 25px; height: auto;">
 
-            <!-- Action -->
             <div class="d-flex justify-content-end gap-2 m-4">
                 <a href="https://wa.me/6285156416448" class="btn btn-success-subtle p-2"><img src="{{ asset('assets\img\icons\message.svg')}}" alt=""></a>
                 <a href="" class="btn btn-success-subtle p-2"><img src="{{ asset('assets\img\icons\cart.svg')}}" alt=""></a>
             </div>
 
-            <!-- Header -->
             <div class="row mx-2">
                 <div class="d-flex justify-content-between mb-2">
                     <div class="d-flex flex-row sub-title col-7 align-items-center">
@@ -168,7 +166,6 @@
                 </div>
             </div>
 
-            <!-- Alamat -->
             <div class="card shadow-sm d-flex p-2 align-items-center flex-row justify-content-between mt-0 mb-4 mx-4" style="border-radius: 15px;">
                 <div class="d-flex flex-column ps-2 gap-2 align-items-start">
                     <h5 style="font-weight: 600;">Alamat :</h5>
@@ -186,55 +183,44 @@
                 </div>
             </div>
 
-            <!-- Modal Ubah Alamat -->
             <div class="modal fade" id="modalAlamat" tabindex="-1" aria-labelledby="modalAlamatLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content" style="border-radius: 15px;">
-
-                        <!-- Header -->
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalAlamatLabel">Ubah Alamat Pengiriman</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-
-                        <!-- Body -->
                         <div class="modal-body">
-
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Alamat Lengkap</label>
                                 <textarea id="alamat-input" class="form-control" rows="3">{{ $user->alamat ?? '' }}</textarea>
                             </div>
-
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Catatan (Opsional)</label>
                                 <textarea id="note-input" class="form-control" rows="2">{{ $user->note ?? '' }}</textarea>
                             </div>
-
                             <div class="d-flex justify-content-end gap-2 mt-3">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                    Batal
-                                </button>
-
-                                <button type="button" class="btn btn-success px-3" id="btn-save-alamat">
-                                    Simpan di Halaman
-                                </button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-success px-3" id="btn-save-alamat">Simpan di Halaman</button>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
 
-            <!-- Produk -->
             <div id="keranjang-container">
                 @include('frontend.keranjang.keranjang-list', ['keranjang' => $keranjang])
             </div>
 
-            <!-- Total -->
             <div class="card shadow-sm d-flex flex-column align-items-stretch mt-4 mx-4 mb-4" style="border-radius: 15px;">
+                
+                @if(session('error'))
+                    <div class="alert alert-danger m-3 alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <div class="d-flex flex-column m-4 mb-2">
-
                     <div class="d-flex flex-row justify-content-between mb-2">
                         <h6 style="font-weight: 500;">Total Pesanan</h6>
                         <h6 id="total-pesanan" style="font-weight: 500;"> Rp {{ number_format($total ?? 0, 0, ',', '.') }}</h6>
@@ -249,7 +235,6 @@
                         <h6 style="font-weight: 500;">Total Pembayaran</h6>
                         <h6 id="total-pembayaran" style="font-weight: 500;">Rp {{ number_format($pembayaran ?? 0, 0, ',', '.') }}</h6>
                     </div>
-
                 </div>
 
                 <a href="#"
@@ -260,15 +245,15 @@
                 </a>
             </div>
 
-        <form action="{{ route('checkout') }}" method="POST">
-            @csrf
-            <input type="hidden" name="alamat" id="alamat-hidden" value="{{ $user->alamat ?? '-' }}">
-            <input type="hidden" name="note" id="note-hidden" value="{{ $user->note ?? '-' }}">
+            <form action="{{ route('checkout') }}" method="POST">
+                @csrf
+                <input type="hidden" name="alamat" id="alamat-hidden" value="{{ $user->alamat ?? '-' }}">
+                <input type="hidden" name="note" id="note-hidden" value="{{ $user->note ?? '-' }}">
 
-            <button class="btn btn-success d-flex justify-content-center w-100 p-3" style="border-radius: 20px;">
-                Bayar Sekarang
-            </button>
-        </form>
+                <button type="submit" class="btn btn-success d-flex justify-content-center w-100 p-3" style="border-radius: 20px;">
+                    Bayar Sekarang
+                </button>
+            </form>
         </div>
     </div>
 

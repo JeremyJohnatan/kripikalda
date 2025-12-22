@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\frontend\TransaksiController;
 use App\Http\Controllers\frontend\KeranjangController;
 use App\Http\Controllers\frontend\WelcomeController;
@@ -13,9 +14,15 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\HistoryController;
 use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome-page');
 
+// --- ADMIN ROUTES ---
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/cetak/pdf', [DashboardController::class, 'cetakPdf'])->name('dashboard.cetak.pdf');
@@ -35,6 +42,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('promo', PromoController::class)->names('promo');
 });
 
+// --- CUSTOMER ROUTES ---
 Route::middleware(['auth', 'customer'])->group(function () {
 
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang');
@@ -46,7 +54,12 @@ Route::middleware(['auth', 'customer'])->group(function () {
 
     Route::post('/checkout', [TransaksiController::class, 'checkout'])->name('checkout');
 
+    Route::post('/riwayat/{id}/send-email', [HistoryController::class, 'sendEmail'])->name('riwayat.send-email');
     Route::resource('history', HistoryController::class)->names('history');
+    
+    // Route manual untuk riwayat transaksi (Duplikasi nama ini yang menjaga layout kamu tetap jalan)
+    Route::get('/riwayat-transaksi', [HistoryController::class, 'index'])->name('riwayat.transaksi');
+    Route::get('/riwayat-transaksi', [HistoryController::class, 'index'])->name('history.index');
 });
 
 Route::post('/otp/send', [OtpController::class, 'send'])->name('otp.send');
