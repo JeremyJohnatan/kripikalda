@@ -13,9 +13,8 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\HistoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome-page');
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -37,7 +36,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'customer'])->group(function () {
-    Route::get('/welcome-page', [WelcomeController::class, 'index'])->name('welcome-page');
 
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang');
     Route::post('/keranjang/add/{id}', [KeranjangController::class, 'add'])->name('keranjang.add');

@@ -175,36 +175,47 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
-   document.getElementById("geminiBtn").addEventListener("click", function () {
-    let url = "{{ route('get.insight') }}?data=" + encodeURIComponent(JSON.stringify(@json($aiData)));
+   document.getElementById("geminiBtn").addEventListener("click", function (e) {
+        e.preventDefault();
 
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            let raw = data.candidates[0].content.parts[0].text;
+        document.getElementById("geminiContent").innerHTML = "Memuat insight...";
 
-            let formatted = raw
-                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                .replace(/(### )(.+)/g, "<h4>$2</h4>")
-                .replace(/(## )(.+)/g, "<h3>$2</h3>")
-                .replace(/(# )(.+)/g, "<h2>$2</h2>")
-                .replace(/\n[-•]\s*(.+)/g, "<li>$1</li>")
-                .replace(/\n\n/g, "</p><p>")
-                .replace(/\n/g, "<br>");
+        const modalEl = document.getElementById("geminiModal");
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
 
-            formatted = formatted.replace(/(<li>[\s\S]*?<\/li>)/g, "<ul>$1</ul>");
+        let url = "{{ route('get.insight') }}?data=" +
+            encodeURIComponent(JSON.stringify(@json($aiData)));
 
-            document.getElementById("geminiContent").innerHTML = `
-                <div class="gemini-box">
-                    <p>${formatted}</p>
-                </div>
-            `;
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                let raw = data.candidates[0].content.parts[0].text;
 
-            new bootstrap.Modal(document.getElementById("geminiModal")).show();
-        })
-        .catch(err => {
-            document.getElementById("geminiContent").innerHTML = "<p>Error memuat insight.</p>";
-        });
+                let formatted = raw
+                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                    .replace(/(### )(.+)/g, "<h4>$2</h4>")
+                    .replace(/(## )(.+)/g, "<h3>$2</h3>")
+                    .replace(/(# )(.+)/g, "<h2>$2</h2>")
+                    .replace(/\n[-•]\s*(.+)/g, "<li>$1</li>")
+                    .replace(/\n\n/g, "</p><p>")
+                    .replace(/\n/g, "<br>");
+
+                formatted = formatted.replace(
+                    /(<li>[\s\S]*?<\/li>)/g,
+                    "<ul>$1</ul>"
+                );
+
+                document.getElementById("geminiContent").innerHTML = `
+                    <div class="gemini-box">
+                        <p>${formatted}</p>
+                    </div>
+                `;
+            })
+            .catch(err => {
+                document.getElementById("geminiContent").innerHTML =
+                    "<p>Error memuat insight.</p>";
+            });
     });
 </script>
 

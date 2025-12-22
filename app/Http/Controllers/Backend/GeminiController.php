@@ -17,31 +17,42 @@ class GeminiController
         }
 
         $prompt = "
-            Analisis perkembangan penjualan berdasarkan data berikut:
+            Instruksi Analisis Penjualan:
+            Berdasarkan data yang diberikan di bawah ini, buatlah ringkasan insight dengan elemen-elemen yang jelas dan mudah dipahami:
 
-            Filter digunakan: {$data['filter']}
+            Data Penjualan:
 
-            Total produk terjual: {$data['product_sold']}
-            Total pendapatan: Rp " . number_format($data['revenue'], 0, ',', '.') . "
+            Filter: {$data['filter']}
+            Total Produk Terjual: {$data['product_sold']}
+            Total Pendapatan: Rp " . number_format($data['revenue'], 0, ',', '.') . "
 
-            Produk paling laris:
-            - {$data['favorite_product']['nama']} ({$data['favorite_product']['jumlah']} terjual)
+            Produk Paling Laris:
+            Nama: {$data['favorite_product']['nama']}
+            Jumlah Terjual: {$data['favorite_product']['jumlah']}
 
-            Produk paling sedikit terjual:
-            - {$data['least_product']['nama']} ({$data['least_product']['jumlah']} terjual)
+            Produk Paling Sedikit Terjual:
+            Nama: {$data['least_product']['nama']}
+            Jumlah Terjual: {$data['least_product']['jumlah']}
 
-            Data Donut Chart (penjualan tiap produk):
+            Data Donut Chart (Penjualan Tiap Produk):
             " . json_encode($data['donut'], JSON_PRETTY_PRINT) . "
 
-            Data Bar Chart (penjualan per periode):
+            Data Bar Chart (Penjualan per Periode):
             " . json_encode($data['bar'], JSON_PRETTY_PRINT) . "
 
-            Tolong buat ringkasan insight yang:
-            - sangat jelas
-            - mudah dibaca
-            - seolah laporan bisnis profesional
-            - jelaskan tren naik/turun
-            - berikan saran strategi yang realistis
+            Insight yang Diharapkan:
+            Ringkasan Tren Penjualan:
+            Apakah penjualan mengalami kenaikan atau penurunan?
+            Bagaimana tren produk yang terlaris dan produk yang paling sedikit terjual dalam periode waktu tertentu?
+
+            Analisis Berdasarkan Data:
+            Produk Paling Laris: Mengapa produk ini lebih laku dibandingkan yang lain? Apa faktor yang memengaruhi? (misalnya, promosi, musim, dll.)
+            Produk Paling Sedikit Terjual: Apa yang menyebabkan produk ini kurang diminati? Apa yang bisa diperbaiki untuk produk ini?
+
+            Saran Strategi:
+            Berdasarkan data, beri saran konkret tentang bagaimana meningkatkan penjualan produk yang kurang laku dan bagaimana menjaga kinerja produk yang laris.
+            Pertimbangkan aspek seperti promosi, perubahan harga, atau perubahan dalam cara pemasaran.
+            Buat saran yang realistis dan dapat diimplementasikan dalam waktu dekat.
         ";
 
         $apiKey = env('GEMINI_API_KEY');

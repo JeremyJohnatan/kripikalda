@@ -10,6 +10,27 @@ use Illuminate\Support\Facades\Auth;
 
 class KeranjangController
 {
+    private function ringkasanKeranjang($userId)
+    {
+        $keranjang = Keranjang::where('id_user', $userId)
+            ->with('produk')
+            ->get();
+
+        $total = $keranjang->sum(fn ($item) =>
+            $item->produk->harga * $item->jumlah
+        );
+
+        $potongan = session('promo.diskon', 0);
+        $pembayaran = $total - $potongan;
+
+        return [
+            'keranjang' => $keranjang,
+            'total' => $total,
+            'potongan' => $potongan,
+            'pembayaran' => $pembayaran
+        ];
+    }
+
     public function index(Request $request)
     {
         $user = Auth::user();
@@ -17,26 +38,35 @@ class KeranjangController
         $kategori = $request->query('kategori');
         $cari = $request->query('cari');
 
-        $products = Product::when($kategori, function ($query) use ($kategori) {
-                return $query->where('item_produk', $kategori);
-            })
-            ->when($cari, function ($query) use ($cari) {
-                return $query->where('nama_produk', 'like', '%' . $cari . '%');
-            })
+        $products = Product::when($kategori, fn ($q) =>
+                $q->where('item_produk', $kategori)
+            )
+            ->when($cari, fn ($q) =>
+                $q->where('nama_produk', 'like', "%$cari%")
+            )
             ->get();
 
-        $keranjang = Keranjang::where('id_user', $user->id)->with('produk')->get();
+        $promos = Promo::where('status', true)
+            ->where('mulai', '<=', now())
+            ->where('berakhir', '>=', now())
+            ->get();
 
-        $promos = Promo::where('status', true)->where('mulai', '<=', now())->where('berakhir', '>=', now())->get();
+        $ringkasan = $this->ringkasanKeranjang($user->id);
 
-        return view('frontend.keranjang.index', compact('user', 'products', 'kategori', 'keranjang', 'cari', 'promos'));
+        return view('frontend.keranjang.index', [
+            'user' => $user,
+            'products' => $products,
+            'kategori' => $kategori,
+            'cari' => $cari,
+            'promos' => $promos,
+            ...$ringkasan
+        ]);
     }
 
     public function deleteAll()
     {
-        $userId = Auth::id();
-
-        Keranjang::where('id_user', $userId)->delete();
+        Keranjang::where('id_user', Auth::id())->delete();
+        session()->forget('promo');
 
         return response()->json([
             'status' => 'success',
@@ -48,35 +78,24 @@ class KeranjangController
     {
         $userId = Auth::id();
 
-        $item = Keranjang::where('id_user', $userId)
-                        ->where('id_produk', $id_produk)
-                        ->first();
+        $item = Keranjang::firstOrCreate(
+            ['id_user' => $userId, 'id_produk' => $id_produk],
+            ['jumlah' => 0]
+        );
 
-        if ($item) {
-            $item->jumlah += 1;
-            $item->save();
-        } else {
-            Keranjang::create([
-                'id_user' => $userId,
-                'id_produk' => $id_produk,
-                'jumlah' => 1
-            ]);
-        }
+        $item->increment('jumlah');
 
-        $keranjang = Keranjang::where('id_user', $userId)->with('produk')->get();
-        $html = view('frontend.keranjang.keranjang-list', compact('keranjang'))->render();
-
-        $totalPesanan = 0;
-        foreach ($keranjang as $item) {
-            $totalPesanan += $item->produk->harga * $item->jumlah;
-        }
+        $data = $this->ringkasanKeranjang($userId);
 
         return response()->json([
             'status' => 'success',
-            'html' => $html,
-            'total' => $totalPesanan,
-            'potongan' => 0,
-            'pembayaran' => $totalPesanan
+            'html' => view(
+                'frontend.keranjang.keranjang-list',
+                ['keranjang' => $data['keranjang']]
+            )->render(),
+            'total' => $data['total'],
+            'potongan' => $data['potongan'],
+            'pembayaran' => $data['pembayaran']
         ]);
     }
 
@@ -85,48 +104,46 @@ class KeranjangController
         $item = Keranjang::findOrFail($id);
 
         if ($request->action === 'plus') {
-            $item->jumlah += 1;
-        } else if ($request->action === 'minus' && $item->jumlah > 1) {
-            $item->jumlah -= 1;
+            $item->increment('jumlah');
+        } elseif ($request->action === 'minus' && $item->jumlah > 1) {
+            $item->decrement('jumlah');
         }
 
-        $item->save();
-
-        $keranjang = Keranjang::where('id_user', Auth::id())->with('produk')->get();
-        $html = view('frontend.keranjang.keranjang-list', compact('keranjang'))->render();
-
-        $totalPesanan = 0;
-        foreach ($keranjang as $item) {
-            $totalPesanan += $item->produk->harga * $item->jumlah;
-        }
+        $data = $this->ringkasanKeranjang(Auth::id());
 
         return response()->json([
             'status' => 'success',
-            'html' => $html,
-            'total' => $totalPesanan,
-            'potongan' => 0,
-            'pembayaran' => $totalPesanan
+            'html' => view(
+                'frontend.keranjang.keranjang-list',
+                ['keranjang' => $data['keranjang']]
+            )->render(),
+            'total' => $data['total'],
+            'potongan' => $data['potongan'],
+            'pembayaran' => $data['pembayaran']
         ]);
     }
 
     public function deleteItem($id)
     {
-        Keranjang::find($id)->delete();
+        Keranjang::where('id_keranjang', $id)
+            ->where('id_user', Auth::id())
+            ->delete();
 
-        $keranjang = Keranjang::where('id_user', Auth::id())->with('produk')->get();
-        $html = view('frontend.keranjang.keranjang-list', compact('keranjang'))->render();
-
-        $totalPesanan = 0;
-        foreach ($keranjang as $item) {
-            $totalPesanan += $item->produk->harga * $item->jumlah;
+        if (Keranjang::where('id_user', Auth::id())->count() === 0) {
+            session()->forget('promo');
         }
+
+        $data = $this->ringkasanKeranjang(Auth::id());
 
         return response()->json([
             'status' => 'success',
-            'html' => $html,
-            'total' => $totalPesanan,
-            'potongan' => 0,
-            'pembayaran' => $totalPesanan
+            'html' => view(
+                'frontend.keranjang.keranjang-list',
+                ['keranjang' => $data['keranjang']]
+            )->render(),
+            'total' => $data['total'],
+            'potongan' => $data['potongan'],
+            'pembayaran' => $data['pembayaran']
         ]);
     }
 
@@ -179,8 +196,6 @@ class KeranjangController
             $diskon = $promo->nilai;
         }
 
-        $totalBayar = max($subtotal - $diskon, 0);
-
         session([
             'promo' => [
                 'kode' => $promo->kode_promo,
@@ -188,11 +203,13 @@ class KeranjangController
             ]
         ]);
 
+        $data = $this->ringkasanKeranjang($userId);
+
         return response()->json([
             'status' => 'success',
-            'total' => $subtotal,
-            'potongan' => $diskon,
-            'pembayaran' => $totalBayar
+            'total' => $data['total'],
+            'potongan' => $data['potongan'],
+            'pembayaran' => $data['pembayaran']
         ]);
     }
 }

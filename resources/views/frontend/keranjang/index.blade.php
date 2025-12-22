@@ -163,7 +163,7 @@
                     </div>
 
                     <div class="d-flex col-5 align-items-center justify-content-end">
-                        <a href="" id="hapus-semua" class="btn btn-success p-2">Hapus Pesanan</a>
+                        <button type="button" id="hapus-semua" class="btn btn-success p-2">Hapus Pesanan</button>
                     </div>
                 </div>
             </div>
@@ -237,17 +237,17 @@
 
                     <div class="d-flex flex-row justify-content-between mb-2">
                         <h6 style="font-weight: 500;">Total Pesanan</h6>
-                        <h6 id="total-pesanan" style="font-weight: 500;">Rp 0</h6>
+                        <h6 id="total-pesanan" style="font-weight: 500;"> Rp {{ number_format($total ?? 0, 0, ',', '.') }}</h6>
                     </div>
 
                     <div class="d-flex flex-row justify-content-between mb-4">
                         <h6 style="font-weight: 500;">Potongan Harga</h6>
-                        <h6 id="potongan-harga" style="font-weight: 500;">Rp 0</h6>
+                        <h6 id="potongan-harga" style="font-weight: 500;">Rp {{ number_format($potongan ?? 0, 0, ',', '.') }}</h6>
                     </div>
 
                     <div class="d-flex flex-row justify-content-between mt-4">
                         <h6 style="font-weight: 500;">Total Pembayaran</h6>
-                        <h6 id="total-pembayaran" style="font-weight: 500;">Rp 0</h6>
+                        <h6 id="total-pembayaran" style="font-weight: 500;">Rp {{ number_format($pembayaran ?? 0, 0, ',', '.') }}</h6>
                     </div>
 
                 </div>
