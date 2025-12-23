@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         if ($user->role === 'Customer') {
-            return redirect()->route('welcome-page');
+            return redirect()->route('keranjang');
         }
 
         Auth::logout();

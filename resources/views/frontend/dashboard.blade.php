@@ -36,19 +36,6 @@
                                         <a href="{{ route('keranjang')}}" class="tg-btn">Order Now</a>
                                     </div>
                                     @auth
-                                        <div class="profile-dropdown">
-                                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=1a4d2e&color=fff&size=128&bold=true"
-                                                 alt="Profile" class="profile-img">
-                                            <span class="profile-name">
-                                                {{ Str::limit(Auth::user()->name, 10) }}
-                                                <i class="fas fa-chevron-down"></i>
-                                            </span>
-                                            <div class="profile-menu">
-                                                <form id="logout-form" method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="button" id="logout-btn" class="logout-btn">
-        <i class="fas fa-sign-out-alt"></i> Logout
-    </button>
 </form>
 
                                             </div>

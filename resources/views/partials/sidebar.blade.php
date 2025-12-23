@@ -55,16 +55,44 @@
         </a>
         @endif
 
-        <form method="POST" action="{{ route('logout') }}" class="mt-auto">
-            @csrf
+       <form id="logout-form" method="POST" action="{{ route('logout') }}" class="mt-auto">
+        @csrf
 
-            <a href="{{ route('logout') }}"
-            class="nav-link nav-item text-danger"
-            onclick="event.preventDefault(); this.closest('form').submit();">
-                <i class="fas fa-sign-out-alt me-2"></i>
-                Logout
-            </a>
-        </form>
+        <a href="#" 
+           class="nav-link nav-item text-danger"
+           onclick="confirmLogout(event)">
+            <i class="fas fa-sign-out-alt me-2"></i>
+            Logout
+        </a>
+    </form>
 
-    </nav>
+</nav>
 </div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmLogout(event) {
+        event.preventDefault(); // Mencegah link bekerja langsung
+        
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda akan keluar dari sesi ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6', // Warna tombol konfirmasi (bisa disesuaikan)
+            cancelButtonColor: '#d33',    // Warna tombol batal
+            confirmButtonText: 'Ya, Logout!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form jika user menekan tombol Ya
+                document.getElementById('logout-form').submit();
+            }
+        });
+    }
+</script>
