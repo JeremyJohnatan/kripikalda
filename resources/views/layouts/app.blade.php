@@ -65,7 +65,9 @@
             @yield('content')
 
             {{-- Footer tetap ditampilkan di semua halaman --}}
-            @include('partials.footer')
+           @if(!request()->is('/') && !request()->is('welcome-page'))
+                @include('partials.header')
+            @endif
 
         @else
             {{-- Tampilan Halaman Keranjang (Pakai Sidebar) --}}
