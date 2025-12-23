@@ -50,7 +50,7 @@
     {{-- LOGIC CUSTOMER --}}
     @elseif(auth()->check() && auth()->user()->role === 'Customer')
 
-        @if(!request()->routeIs('keranjang', 'history.*'))
+        @if(request()->routeIs('welcome-page'))
 
             {{--
                MODIFIKASI PENTING:
@@ -91,7 +91,6 @@
         <main class="{{ (request()->is('/') || request()->is('welcome-page')) ? '' : 'main-area fix' }} {{ request()->routeIs('login','register') ? 'no-padding' : '' }}">
             @yield('content')
         </main>
-        @include('partials.footer')
     @endif
 
 

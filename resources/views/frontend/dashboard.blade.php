@@ -7,7 +7,7 @@
 @endpush
 
 @section('content')
-    
+
     {{-- =========================================
          HEADER / NAVBAR
          ========================================= --}}
@@ -37,10 +37,10 @@
                                     </div>
                                     @auth
                                         <div class="profile-dropdown">
-                                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=1a4d2e&color=fff&size=128&bold=true" 
+                                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=1a4d2e&color=fff&size=128&bold=true"
                                                  alt="Profile" class="profile-img">
                                             <span class="profile-name">
-                                                {{ Str::limit(Auth::user()->name, 10) }} 
+                                                {{ Str::limit(Auth::user()->name, 10) }}
                                                 <i class="fas fa-chevron-down"></i>
                                             </span>
                                             <div class="profile-menu">
@@ -71,7 +71,7 @@
          ========================================= --}}
     <main class="main-area-fixx">
 
-        
+
         <div class="mobile-menu">
             <nav class="menu-box">
                 <div class="close-btn"><i class="fas fa-times"></i></div>
@@ -87,24 +87,24 @@
                 background-image:
                     url('{{ asset('assets/img/alda/bg.png') }}'),       /* Layer Atas: Gelombang */
                     url('{{ asset('assets/img/alda/Background.png') }}'); /* Layer Bawah: Utama */
-                
+
                 /* 2. Posisi Background */
                 background-position: top center, center center;
-                
+
                 /* 3. Ukuran Background (PENTING agar gelombang tidak gepeng) */
                 /* 100% auto = lebar penuh, tinggi menyesuaikan proporsi gambar */
                 background-size: 100% auto, cover;
-                
+
                 background-repeat: no-repeat, no-repeat;
 
                 /* 4. Setup agar FIT SCREEN (PENTING) */
                 min-height: 100vh; /* Tinggi minimal selebar layar gadget */
                 display: flex;     /* Gunakan flexbox */
                 align-items: center; /* Tengahkan konten secara vertikal */
-                
+
                 /* 5. Padding agar konten tidak tertutup Navbar */
                 /* Sesuaikan nilai ini jika navbar Anda lebih tinggi/pendek */
-                padding-top: 100px; 
+                padding-top: 100px;
                 padding-bottom: 50px; /* Padding bawah agar tidak terlalu mepet di HP */
             ">
 
@@ -133,8 +133,8 @@
                     <div class="tentang-kami-content">
                         <h2>Tentang Kami</h2>
                         <p>
-                            Sejak 2011, Kripik Alda hadir dengan camilan sehat yang nggak cuma enak, tapi juga bergizi! Kami menghadirkan Kripik Jamur dan Kripik Pare yang terbuat dari bahan alami pilihan, 
-                            diproses dengan cara yang higienis untuk menjaga kualitas dan rasa. Tanpa bahan pengawet, kripik kami punya tekstur renyah yang cocok banget buat teman nongkrong atau ngemil sambil santai. 
+                            Sejak 2011, Kripik Alda hadir dengan camilan sehat yang nggak cuma enak, tapi juga bergizi! Kami menghadirkan Kripik Jamur dan Kripik Pare yang terbuat dari bahan alami pilihan,
+                            diproses dengan cara yang higienis untuk menjaga kualitas dan rasa. Tanpa bahan pengawet, kripik kami punya tekstur renyah yang cocok banget buat teman nongkrong atau ngemil sambil santai.
                             Berlokasi di Rt/Rw 01/05, Ds. Jagul Dsn. Sraten, Kec. Ngancar, Kabupaten Kediri, Jawa Timur, kami siap memberikan camilan yang nggak hanya lezat, tapi juga mendukung gaya hidup sehat. Kripik Alda – camilan yang bikin ketagihan!
                         </p>
                     </div>
@@ -198,7 +198,10 @@
         </section>
 
     </main>
+
+@include('partials.footer')
 @endsection
+
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
