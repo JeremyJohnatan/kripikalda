@@ -113,7 +113,7 @@ class TransaksiController extends Controller
                 'external_id'        => $externalId,
                 'tanggal'            => now(),
                 'alamat'             => $request->alamat,
-                'status_pembayaran'  => 'Pending', 
+                'status_pembayaran'  => 'paid', 
                 'status_pengiriman'  => 'Belum Dikirim',
                 'subtotal'           => $subtotal,
                 'diskon'             => $diskon,
